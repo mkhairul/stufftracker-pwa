@@ -3,7 +3,7 @@
     <md-toolbar :md-elevation="1">
         <span class="md-title center ">Stuff Tracker</span>
     </md-toolbar>
-    <main>
+    <main class="md-content">
       <router-view></router-view>
     </main>
   </div>
@@ -29,7 +29,7 @@ body {
 }
 
 main {
-  text-align: center;
-  margin-top: 40px;
+  padding: 16px;
+  margin-top: 20px;
 }
 </style>
