@@ -1,46 +1,57 @@
 <template>
-  <div class="hello">
-    <div class="md-layout md-gutter">
-      <md-card  v-for="item in itemList" v-bind:key="item.id" class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-          <md-card-header>
-            <div class="md-title">{{ item.title }}</div>
-          </md-card-header>
-
-          <md-card-content>
-            {{ item.content }}
-          </md-card-content>
-
-          <md-card-actions>
-            <md-button>Action</md-button>
-            <md-button>Action</md-button>
-          </md-card-actions>
-      </md-card>
-    </div>
-      
-    <md-speed-dial class="md-bottom-left">
-      <md-speed-dial-target>
-        <md-icon>add</md-icon>
-      </md-speed-dial-target>
-
-      <md-speed-dial-content>
-        <md-button class="md-icon-button md-raised" to="/camera">
-            <md-icon>camera_alt</md-icon>
-        </md-button>
-          
-        <md-button class="md-icon-button">
-          <md-icon>event</md-icon>
-        </md-button>
-      </md-speed-dial-content>
-    </md-speed-dial>
-  </div>
+  <v-card>
+      <v-container
+        fluid
+        style="min-height: 0;"
+        grid-list-lg
+      >
+        <v-layout row wrap>
+          <!--
+          <v-flex xs12>
+            <div class="text-xs-center">
+                <v-btn color="error" dark large class="center-button">Create New Item!</v-btn>
+            </div>
+          </v-flex>
+          -->
+        </v-layout>
+        <v-list two-line>
+          <template v-for="(item, index) in itemList">
+            <v-list-tile
+              :key="item.title"
+              avatar
+              ripple
+              @click="toggle(index)"
+            >
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-sub-title class="text--primary">{{ item.headline }}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
+                <v-icon
+                  v-if="selected.indexOf(index) < 0"
+                  color="grey lighten-1"
+                >star_border</v-icon>
+                <v-icon
+                  v-else
+                  color="yellow darken-2"
+                >star</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-divider v-if="index + 1 < itemList.length" :key="index"></v-divider>
+          </template>
+        </v-list>
+      </v-container>
+  </v-card>
 </template>
 
 <script>
 export default {
   data () {
-    console.log(this.$faker)
     return {
-      msg: 'Welcome to Your Vue.js PWA'
+      msg: 'Welcome to Your Vue.js PWA',
+      selected: [2]
     }
   },
   computed: {
@@ -50,19 +61,30 @@ export default {
         items.push({
           id: i,
           title: this.$faker.lorem.words(),
-          content: this.$faker.lorem.paragraph()
+          content: this.$faker.lorem.sentences(),
+          subtitle: this.$faker.lorem.lines(),
+          action: '5 min'
         })
       }
       return items
+    }
+  },
+  methods: {
+    toggle (index) {
+      const i = this.selected.indexOf(index)
+
+      if (i > -1) {
+        this.selected.splice(i, 1)
+      } else {
+        this.selected.push(index)
+      }
     }
   }
 }
 </script>
 
 <style>
-  .md-card {
-    margin: 4px;
-    display: inline-block;
-    vertical-align: top;
-  }
+    .new-user .center-button{
+        margin: 0 auto;
+    }
 </style>

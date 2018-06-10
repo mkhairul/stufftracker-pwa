@@ -1,15 +1,39 @@
 <template>
-    <div class="md-layout">
-        <h1>Camera</h1>
-        <div><video ref="video" id="video" width="640" height="480" autoplay></video></div>
-        <div><button id="snap" v-on:click="capture()">Snap Photo</button></div>
+    <v-card height="100%">
+        <v-card-media height="100%">
+            <video ref="video" id="video" width="100%" height="100%" autoplay></video>
+        </v-card-media>
+        <div></div>
         <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
         <ul>
             <li v-for="c in captures">
                 <img v-bind:src="c" height="50" />
             </li>
         </ul>
-    </div>
+        <v-speed-dial
+          :top="top"
+          :bottom="bottom"
+          :right="right"
+          :left="left"
+          :direction="direction"
+          :open-on-hover="hover"
+          :transition="transition"
+          class="camera-speeddial"
+          fixed
+        >
+          
+          <v-btn
+            v-on:click="capture()"
+            slot="activator"
+            v-model="fab"
+            color="blue darken-2"
+            dark
+            fab
+          >
+            <v-icon>camera_alt</v-icon>
+          </v-btn>
+        </v-speed-dial>
+    </v-card>
 </template>
 
 <script>
@@ -18,7 +42,17 @@ export default {
     return {
       video: {},
       canvas: {},
-      captures: []
+      captures: [],
+      direction: 'top',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: false,
+      bottom: true,
+      left: true,
+      transition: 'slide-y-reverse-transition'
     }
   },
   methods: {
@@ -30,6 +64,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.commit('disable_speeddial')
     this.video = this.$refs.video
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
@@ -47,5 +82,9 @@ export default {
     }
     #canvas {
         display: none;
+    }
+    .camera-speeddial{
+        left: 50%;
+        margin-left: -24px;
     }
 </style>
