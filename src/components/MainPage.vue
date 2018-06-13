@@ -15,6 +15,9 @@
           -->
         </v-layout>
         <v-list two-line>
+          <article v-for="(container, idx) in containers" :key="idx">
+            <h1>{{ container.name }}</h1>
+          </article>
           <template v-for="(item, index) in itemList">
             <v-list-tile
               :key="item.title"
@@ -48,12 +51,11 @@
 
 <script>
 export default {
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js PWA',
-      selected: [2]
-    }
-  },
+  data: () => ({
+    msg: 'Welcome to Your Vue.js PWA',
+    selected: [2],
+    containers: []
+  }),
   computed: {
     itemList: function () {
       var items = []
@@ -78,6 +80,15 @@ export default {
       } else {
         this.selected.push(index)
       }
+    }
+  },
+  mounted () {
+    this.$store.commit('enable_speeddial')
+    console.log(this.$db.collection('containers').get())
+  },
+  firestore () {
+    return {
+      containers: this.$db.collection('containers')
     }
   }
 }

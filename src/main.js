@@ -7,16 +7,31 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Vuex from 'vuex'
 import faker from 'faker'
+import VueFire from 'vuefire'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
+firebase.initializeApp({
+  projectId: 'stufftracker-86f5c',
+  databaseURL: 'https://stufftracker-86f5c.firebaseio.com'
+})
+
+export const db = firebase.firestore()
+const settings = { timestampsInSnapshots: true }
+db.settings(settings)
 
 Object.defineProperty(Vue.prototype, '$faker', { value: faker })
+Object.defineProperty(Vue.prototype, '$db', { value: db })
 
+Vue.use(VueFire)
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    main_speeddial: true
+    main_speeddial: true,
+    item: {}
   },
   mutations: {
     disable_speeddial (state) {
@@ -24,6 +39,9 @@ const store = new Vuex.Store({
     },
     enable_speeddial (state) {
       state.main_speeddial = true
+    },
+    saveNewItem (state, itemObj) {
+      state.item = itemObj
     }
   }
 })
