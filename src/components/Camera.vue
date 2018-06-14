@@ -60,7 +60,9 @@ export default {
       this.canvas = this.$refs.canvas
       var context = this.canvas.getContext('2d').drawImage(this.video, 0, 0, 640, 480)
       console.log(context)
-      this.captures.push(this.canvas.toDataURL('img/png'))
+      // this.captures.push(this.canvas.toDataURL('img/png'))
+      this.$store.commit('newImage', this.canvas.toDataURL('img/png'))
+      this.$router.push('/newitem')
     }
   },
   mounted () {

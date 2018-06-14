@@ -7,7 +7,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Vuex from 'vuex'
 import faker from 'faker'
-import VueFire from 'vuefire'
+import VueFirestore from 'vue-firestore'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
@@ -23,7 +23,7 @@ db.settings(settings)
 Object.defineProperty(Vue.prototype, '$faker', { value: faker })
 Object.defineProperty(Vue.prototype, '$db', { value: db })
 
-Vue.use(VueFire)
+Vue.use(VueFirestore)
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -31,7 +31,8 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
   state: {
     main_speeddial: true,
-    item: {}
+    item: {},
+    image: ''
   },
   mutations: {
     disable_speeddial (state) {
@@ -42,6 +43,11 @@ const store = new Vuex.Store({
     },
     saveNewItem (state, itemObj) {
       state.item = itemObj
+    },
+    newImage (state, image) {
+      console.log('storing image')
+      console.log(image)
+      state.image = image
     }
   }
 })

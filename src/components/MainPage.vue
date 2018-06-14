@@ -6,17 +6,20 @@
         grid-list-lg
       >
         <v-layout row wrap>
-          <!--
+          
           <v-flex xs12>
             <div class="text-xs-center">
-                <v-btn color="error" dark large class="center-button">Create New Item!</v-btn>
+              <h1>No Items Found.</h1>
+              <v-btn color="error" dark large class="center-button" to="/newitem">Create New Item!</v-btn>
             </div>
           </v-flex>
-          -->
+          
         </v-layout>
+        <!--
         <v-list two-line>
-          <article v-for="(container, idx) in containers" :key="idx">
+          <article v-for="container in containers">
             <h1>{{ container.name }}</h1>
+            <span>{{ container['.key'] }}</span>
           </article>
           <template v-for="(item, index) in itemList">
             <v-list-tile
@@ -45,6 +48,7 @@
             <v-divider v-if="index + 1 < itemList.length" :key="index"></v-divider>
           </template>
         </v-list>
+        -->
       </v-container>
   </v-card>
 </template>
@@ -84,7 +88,6 @@ export default {
   },
   mounted () {
     this.$store.commit('enable_speeddial')
-    console.log(this.$db.collection('containers').get())
   },
   firestore () {
     return {
